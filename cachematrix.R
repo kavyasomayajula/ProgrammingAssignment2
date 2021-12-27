@@ -8,17 +8,18 @@
 ## Write a short comment describing this function
 
 makeCacheMatrix <- function(x = matrix()) { 
-  inv <- NULL
+  invs <- NULL
   set <- function(y) {
     x <<- y
-    inv <<- NULL
+    invs <<- NULL
     # double arrow is used in conjuction with a closer 
     # it will keep going through the environments in order until
     #it finds a variable with that name, and it will assign it to that.
   }
   get <- function() {x}
-  setInverse <- function(inverse) {inv <<- inverse}
-  getInverse <- function() {inv}
+  
+  setInverse <- function(inverse) {invs <<- inverse}
+  getInverse <- function() {invs}
   list(set = set, get = get, setInverse = setInverse, getInverse = getInverse)
 }
 
@@ -28,14 +29,14 @@ makeCacheMatrix <- function(x = matrix()) {
 
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
-  inv <- x$getInverse()
-  if(!is.null(inv)) {
+  invs <- x$getInverse()
+  if(!is.null(invs)) {
     message("getting cached data")
-    return(inv)
+    return(invs)
   }
-  mat <- x$get()
-  inv <- solve(mat, ...) #solve is default function for solves 
+  matrix <- x$get()
+  invs <- solve(matrix, ...) #solve is default function for solves 
   #the equation a %*% x = b for x, where b can be either a vector or a matrix.
-  x$setInverse(inv)
-  inv
+  x$setInverse(invs)
+  invs
 }
